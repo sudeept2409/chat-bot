@@ -1,0 +1,21 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    padding: 6rem;
+    height: 100vh;
+    width: 100vw;
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.chatwrapper{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.chatContainer{
+    width: 100%;
+    min-height: 50vh;
+    max-height: 80vh;
+}
