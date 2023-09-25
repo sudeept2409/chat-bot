@@ -5,37 +5,27 @@ import {
   MessageInput,
   MessageList,
   TypingIndicator,
-} from "@chatscope/chat-ui-kit-react"; // not able to resolve @chatscope/chat-ui-kit-react
+} from "@chatscope/chat-ui-kit-react"; 
 import styles from "./Chat.module.css";
 import { useEffect, useRef, useState } from "react";
-// import { ChatCompletionRequestMessageRoleEnum, Configuration, OpenAIApi } from "openai"; //Showing error about not finding the methods ChatCompletionRequestMessageRoleEnum, Configuration, OpenAIApi
-import { OpenAIClient, OpenAIKeyCredential } from "@azure/openai";
-// import { ChatRole } from "@azure/openai";
+
+
 const CHATGPT_USER = "ChatGPT";
-const DEAFULT_BEHAVIOR = "General Conversation";
-const CONFIGURATION = new OpenAIKeyCredential(
-  "3289261e6cc84fa8aef58d38e2264fa9"
-);
-const OPENAI_CLIENT = new OpenAIClient(
-  "https://openai-demo-mb-001.openai.azure.com/",
-  CONFIGURATION,
-  "2023-05-15"
-);
+
 
 export default function Chat() {
   const messageInput = useRef(null);
   const [messages, setMessages] = useState([]);
-  const [behaviorInput, setBehaviorInput] = useState(DEAFULT_BEHAVIOR);
-  const [behavior, setBehavior] = useState(DEAFULT_BEHAVIOR);
-
   const [waitingForResponse, setWaitingForResponse] = useState(false);
 
+  
   useEffect(() => {
     if (!waitingForResponse) {
       messageInput.current?.focus();
     }
   }, [waitingForResponse]);
 
+  //Sending the message to bot
   const sendMessage = (innerHtml, textContent, innerText, nodes) => {
     const newMessageList = [...messages];
     const newMessage = {
@@ -51,12 +41,9 @@ export default function Chat() {
     getResponse(newMessageList);
   };
 
-  const getResponse = async (newMessageList) => {
-    const systemMessage = {
-      role: "System",
-      content: behavior,
-    };
 
+  //Receiving Response from the bot
+  const getResponse = async (newMessageList) => {
     const input = newMessageList.map((message) => {
       return {
         role: message.sender === CHATGPT_USER ? "assistant" : "user",
@@ -64,10 +51,6 @@ export default function Chat() {
       };
     });
 
-    // const response = await OPENAI_CLIENT.getChatCompletions(
-    //   "openaidemomb001",
-    //   input
-    // );
     var myHeaders = new Headers();
     myHeaders.append("api-key", "3289261e6cc84fa8aef58d38e2264fa9");
     myHeaders.append("Content-Type", "application/json");
@@ -107,32 +90,19 @@ export default function Chat() {
         setWaitingForResponse(false);
       })
       .catch((error) => console.log("error", error));
-    // console.log(response);
+   
   };
 
-  const updateBehavior = () => {
-    const finalBehavior = behaviorInput.trim().length
-      ? behaviorInput.trim()
-      : DEAFULT_BEHAVIOR;
-    setBehavior(finalBehavior);
-  };
 
+  //UI for the bot
   return (
     <div className={styles.container}>
-      <div className={styles.inputContainer}>
-        <input
-          className={styles.input}
-          value={behaviorInput}
-          onChange={(e) => setBehaviorInput(e.target.value)}
-        />
-        <button className={styles.submit} onClick={updateBehavior}>
-          Update Behavior
-        </button>
+      <div className={styles.chatHead}>
+        <h2>Conversational Chat Bot</h2>
       </div>
       <div className={styles.chatWrapper}>
-        <div className={styles.chatContainer}>
-          <MainContainer>
-            <ChatContainer>
+          <MainContainer classname={styles.mainContainer}>
+            <ChatContainer className={styles.chatContainer}>
               <MessageList
                 className={styles.chatMessageList}
                 typingIndicator={
@@ -169,8 +139,7 @@ export default function Chat() {
                 ref={messageInput}
               />
             </ChatContainer>
-          </MainContainer>
-        </div>
+          </MainContainer>        
       </div>
     </div>
   );
