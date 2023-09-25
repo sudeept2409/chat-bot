@@ -5,17 +5,22 @@ import {
   MessageInput,
   MessageList,
   TypingIndicator,
-} from "@chatscope/chat-ui-kit-react";// not able to resolve @chatscope/chat-ui-kit-react
+} from "@chatscope/chat-ui-kit-react"; // not able to resolve @chatscope/chat-ui-kit-react
 import styles from "./Chat.module.css";
 import { useEffect, useRef, useState } from "react";
-import { ChatCompletionRequestMessageRoleEnum, Configuration, OpenAIApi } from "openai"; //Showing error about not finding the methods ChatCompletionRequestMessageRoleEnum, Configuration, OpenAIApi
-
+// import { ChatCompletionRequestMessageRoleEnum, Configuration, OpenAIApi } from "openai"; //Showing error about not finding the methods ChatCompletionRequestMessageRoleEnum, Configuration, OpenAIApi
+import { OpenAIClient, OpenAIKeyCredential } from "@azure/openai";
+// import { ChatRole } from "@azure/openai";
 const CHATGPT_USER = "ChatGPT";
 const DEAFULT_BEHAVIOR = "General Conversation";
-const CONFIGURATION = new Configuration({
-  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-});
-const OPENAI_CLIENT = new OpenAIApi(CONFIGURATION);
+const CONFIGURATION = new OpenAIKeyCredential(
+  "3289261e6cc84fa8aef58d38e2264fa9"
+);
+const OPENAI_CLIENT = new OpenAIClient(
+  "https://openai-demo-mb-001.openai.azure.com/",
+  CONFIGURATION,
+  "2023-05-15"
+);
 
 export default function Chat() {
   const messageInput = useRef(null);
@@ -31,12 +36,7 @@ export default function Chat() {
     }
   }, [waitingForResponse]);
 
-  const sendMessage = async (
-    innerHtml,
-    textContent,
-    innerText,
-    nodes
-  ) => {
+  const sendMessage = (innerHtml, textContent, innerText, nodes) => {
     const newMessageList = [...messages];
     const newMessage = {
       content: textContent,
@@ -48,45 +48,66 @@ export default function Chat() {
     setMessages([...newMessageList]);
 
     setWaitingForResponse(true);
-    const response = await getResponse(newMessageList);
-
-    const newMessageResponse = {
-      content: response.content,
-      sentTime: Math.floor(Date.now() / 1000),
-      sender: CHATGPT_USER,
-      direction: "incoming",
-    };
-
-    newMessageList.push(newMessageResponse);
-    setMessages([...newMessageList]);
-    setWaitingForResponse(false);
+    getResponse(newMessageList);
   };
 
   const getResponse = async (newMessageList) => {
     const systemMessage = {
-      role: ChatCompletionRequestMessageRoleEnum.System,
+      role: "System",
       content: behavior,
     };
 
     const input = newMessageList.map((message) => {
       return {
-        role:
-          message.sender === CHATGPT_USER
-            ? ChatCompletionRequestMessageRoleEnum.Assistant
-            : ChatCompletionRequestMessageRoleEnum.User,
+        role: message.sender === CHATGPT_USER ? "assistant" : "user",
         content: message.content,
       };
     });
 
-    const response = await OPENAI_CLIENT.createChatCompletion({
-      model: "gpt-3.5-turbo",
-      messages: [systemMessage, ...input],
-    });
-    console.log(response);
+    // const response = await OPENAI_CLIENT.getChatCompletions(
+    //   "openaidemomb001",
+    //   input
+    // );
+    var myHeaders = new Headers();
+    myHeaders.append("api-key", "3289261e6cc84fa8aef58d38e2264fa9");
+    myHeaders.append("Content-Type", "application/json");
 
-    return {
-      content: response.data.choices[0].message?.content,
+    var raw = JSON.stringify({
+      messages: input,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
     };
+    let finalResponse = {};
+
+    fetch(
+      "https://openai-demo-mb-001.openai.azure.com/openai/deployments/openaidemomb001/chat/completions?api-version=2023-05-15",
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        finalResponse = {
+          content: result.choices[0].message?.content,
+        };
+
+        const newMessageResponse = {
+          content: finalResponse.content,
+          sentTime: Math.floor(Date.now() / 1000),
+          sender: CHATGPT_USER,
+          direction: "incoming",
+        };
+
+        newMessageList.push(newMessageResponse);
+        setMessages([...newMessageList]);
+        setWaitingForResponse(false);
+      })
+      .catch((error) => console.log("error", error));
+    // console.log(response);
   };
 
   const updateBehavior = () => {
