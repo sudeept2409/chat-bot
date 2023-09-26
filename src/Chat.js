@@ -62,7 +62,7 @@ export default function Chat() {
     });
 
     var myHeaders = new Headers();
-    myHeaders.append("api-key","3289261e6cc84fa8aef58d38e2264fa9");
+    myHeaders.append("api-key","");
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
