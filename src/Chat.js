@@ -26,7 +26,7 @@ export default function Chat() {
   }, [waitingForResponse]);
 
   //Sending the message to bot
-  const sendMessage = (innerHtml, textContent, innerText, nodes) => {
+  const sendMessage = async (innerHtml, textContent, innerText, nodes) => {
     const newMessageList = [...messages];
     const newMessage = {
       content: textContent,
@@ -38,7 +38,17 @@ export default function Chat() {
     setMessages([...newMessageList]);
 
     setWaitingForResponse(true);
-    getResponse(newMessageList);
+    const finalResponse = await getResponse(newMessageList);
+    const newMessageResponse = {
+      content: finalResponse.content,
+      sentTime: Math.floor(Date.now() / 1000),
+      sender: CHATGPT_USER,
+      direction: "incoming",
+    };
+
+    newMessageList.push(newMessageResponse);
+    setMessages([...newMessageList]);
+    setWaitingForResponse(false);
   };
 
 
@@ -52,7 +62,7 @@ export default function Chat() {
     });
 
     var myHeaders = new Headers();
-    myHeaders.append("api-key","");
+    myHeaders.append("api-key","3289261e6cc84fa8aef58d38e2264fa9");
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
@@ -67,7 +77,7 @@ export default function Chat() {
     };
     let finalResponse = {};
 
-    fetch(
+    await fetch(
       "https://openai-demo-mb-001.openai.azure.com/openai/deployments/openaidemomb001/chat/completions?api-version=2023-05-15",
       requestOptions
     )
@@ -77,19 +87,9 @@ export default function Chat() {
         finalResponse = {
           content: result.choices[0].message?.content,
         };
-
-        const newMessageResponse = {
-          content: finalResponse.content,
-          sentTime: Math.floor(Date.now() / 1000),
-          sender: CHATGPT_USER,
-          direction: "incoming",
-        };
-
-        newMessageList.push(newMessageResponse);
-        setMessages([...newMessageList]);
-        setWaitingForResponse(false);
       })
       .catch((error) => console.log("error", error));
+      return finalResponse
    
   };
 
