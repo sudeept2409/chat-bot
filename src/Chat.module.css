@@ -1,75 +1,126 @@
-.container{
-    display: flex;
-    flex-direction: column;
-    padding: 6rem;
-    height: 100vh;
-    width: 100;
-    background: url('https://usa.bootcampcdn.com/wp-content/uploads/sites/106/2022/03/shutterstock_1044968062-800x412.png');
-    background-size: cover;
-	background-position: center	center;
-    color: #ffffff;
+.container {
+  display: flex;
+  flex-direction: column;
+
+  padding: 6rem;
+
+  height: 100vh;
+
+  width: 100;
+
+  background: url("https://usa.bootcampcdn.com/wp-content/uploads/sites/106/2022/03/shutterstock_1044968062-800x412.png");
+
+  background-size: cover;
+
+  background-position: center center;
+
+  color: #ffffff;
 }
 
-.chatHead{
-    background-color: rgba(100, 33, 202, 0.9);
-
+.chatHead {
+  background-color: rgba(100, 33, 202, 0.9);
 }
 
-.mainContainer{
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
+.mainContainer {
+  background-color: rgba(255, 255, 255, 0.9);
+
+  border-radius: 10px;
 }
 
-.chatwrapper{
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+.chatwrapper {
+  display: flex;
+
+  flex-direction: column;
+
+  height: 100%;
 }
 
-.chatContainer{
-    width: 100%;
-    min-height: 50vh;
-    max-height: 80vh;
+.chatContainer {
+  width: 100%;
+
+  min-height: 50vh;
+
+  max-height: 80vh;
 }
 
 .inputContainer {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+
+  flex-direction: row;
 }
 
 .input {
-    flex-grow: 1;
-    padding: 10px;
-    border: 1px #FFFFFF solid;
-    border-radius: 0;
-    font-size: 1rem;
-    background: #432A74;
+  flex-grow: 1;
+
+  padding: 10px;
+
+  border: 1px #ffffff solid;
+
+  border-radius: 0;
+
+  font-size: 1rem;
+
+  background: #432a74;
 }
 
 .submit {
-    background: #432A74;
-    border: 1px #ffffff solid;
-    display: flex;
-    padding: 1rem;
-    border-radius: none;
-    font-size: 1rem;
-    transition-duration: .15s;
-    transition-property: all;
-    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+  background: #432a74;
+
+  border: 1px #ffffff solid;
+
+  display: flex;
+
+  padding: 1rem;
+
+  border-radius: none;
+
+  font-size: 1rem;
+
+  transition-duration: 0.15s;
+
+  transition-property: all;
+
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .submit:hover {
-    background: #1c0a42;
-    cursor: pointer;
+  background: #1c0a42;
+
+  cursor: pointer;
 }
 
 .chatMessageList {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    background: #432A74;
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: flex-end;
+
+  background: #432a74;
 }
 
 .chatMessageList :global .scrollbar-container {
-    height: auto;
+  height: auto;
+}
+
+.userResponse {
+  position: absolute;
+
+  bottom: 55px;
+
+  z-index: 55;
+}
+
+.userResponseButtons {
+  padding: 6px;
+
+  margin: 10px;
+
+  background-color: cornflowerblue;
+
+  color: #fff;
+
+  border-radius: 7px;
+
+  cursor: pointer;
 }
