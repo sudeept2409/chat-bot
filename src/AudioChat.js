@@ -17,7 +17,7 @@ import { ReactComponent as MicIcon } from "./mic.svg";
 
 const CHATGPT_USER = "ChatGPT";
 const CONFIGURATION = new AzureKeyCredential(
-  "3289261e6cc84fa8aef58d38e2264fa9"
+  ""
 );
 const OPENAI_CLIENT = new OpenAIClient(
   "https://openai-demo-mb-001.openai.azure.com",
