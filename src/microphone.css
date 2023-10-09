@@ -1,6 +1,7 @@
+
 body {
 	margin: 0;
-	font-size: (100/8)px;
+	font-size: 100/8 px;
 }
 
 .btn {
@@ -9,7 +10,8 @@ body {
   border-radius: 100%;
   width: 100px;
   height: 100px;
-  font-size: 3em;
+  font-size: 20px;
+  font-weight: bolder;
   color: #fff;
   padding: 0;
   margin: 0;
@@ -39,8 +41,8 @@ body {
   border: 5px solid #189BFF;
   border-radius: 50%;
   position: absolute;
-  top: -5px;
-  left: -5px;
+  /* top: -5px; */
+  /* left: -5px; */
   animation: pulsate infinite 1.5s;
 }
 
@@ -63,8 +65,6 @@ body {
 	display: flex;
   align-items: center;
   justify-content: center;
-	height: 100vh;
-	background-color: #d8d8d8;
 }
 
 .m-left{

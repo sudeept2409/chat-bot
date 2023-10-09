@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import Modal from "react-bootstrap/Modal";
 import "./microphone.css";
 import { ReactComponent as MicIcon } from "./mic.svg";
+// import { IconName } from "react-icons/fa";
 
 const VoiceSearchModal = ({ sendMessage, setShowVoiceModal }) => {
   const messageRef = useRef();
@@ -38,11 +39,11 @@ const VoiceSearchModal = ({ sendMessage, setShowVoiceModal }) => {
   return (
     <Modal size="xl" show backdrop="static" keyboard={false} centered>
       <Modal.Header>
-        <Modal.Title>Chatbot is listening...... Start Talking </Modal.Title>
+        <Modal.Title>I'm Listening, Please</Modal.Title>
         <div className="container">
           <button id="speech" className="btn">
             <div className="pulse-ring"></div>
-            <MicIcon className="svg-fill-white ds-svg-icon" />
+            <MicIcon className="svg-fill-white ds-svg-icon" /> 
           </button>
         </div>
       </Modal.Header>
