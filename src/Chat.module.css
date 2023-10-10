@@ -18,7 +18,8 @@
 }
 
 .chatHead {
-  background-color: rgba(100, 33, 202, 0.9);
+  background-color: rgb(82 80 86 / 90%);
+  padding: 1rem 0;
 }
 
 .mainContainer {
@@ -96,7 +97,7 @@
 
   justify-content: flex-end;
 
-  background: #432a74;
+  background: rgb(22 21 25 / 90%) !important;
 }
 
 .chatMessageList :global .scrollbar-container {
@@ -105,10 +106,10 @@
 
 .userResponse {
   position: absolute;
-
-  bottom: 55px;
-
+  right: 16px;
+  bottom: 12px;
   z-index: 55;
+  color: #fff !important;
 }
 
 .userResponseButtons {

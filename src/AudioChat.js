@@ -13,7 +13,7 @@ import * as XLSX from "xlsx";
 import { AzureKeyCredential, OpenAIClient } from "@azure/openai";
 import ClubsUseCase from "./usecase/TestCases.xlsx";
 import VoiceSearchModal from "./VoiceSearchModal";
-import { ReactComponent as MicIcon } from "./mic.svg";
+import { ReactComponent as MicIcon } from "./mic-fill.svg";
 
 const CHATGPT_USER = "ChatGPT";
 const CONFIGURATION = new AzureKeyCredential(
@@ -233,12 +233,17 @@ export default function Chat() {
   //UI for the bot
   return (
     <div className={styles.container}>
-      {showVoiceModal && <VoiceSearchModal sendMessage={sendMessage} setShowVoiceModal={setShowVoiceModal} />}
+      {showVoiceModal && (
+        <VoiceSearchModal
+          sendMessage={sendMessage}
+          setShowVoiceModal={setShowVoiceModal}
+        />
+      )}
       <div className={styles.chatHead}>
         <h2>Conversational Chat Bot</h2>
       </div>
       <div className={styles.chatWrapper}>
-        <MainContainer classname={styles.mainContainer}>
+        <MainContainer className={styles.mainContainer}>
           <ChatContainer className={styles.chatContainer}>
             <MessageList
               className={styles.chatMessageList}
@@ -246,7 +251,7 @@ export default function Chat() {
                 waitingForResponse && (
                   <TypingIndicator
                     content="ChatGPT is thinking"
-                    style={{ background: "#432A74" }}
+                    style={{ background: "rgb(82 80 86 / 90%)", color: "#fff" }}
                   />
                 )
               }
@@ -268,7 +273,7 @@ export default function Chat() {
             </MessageList>
             <MessageInput
               placeholder="Type message here"
-              style={{ background: "#432A74" }}
+              style={{ background: "rgb(82 80 86 / 90%)", paddingRight: "2rem"}}
               onSend={sendMessage}
               autoFocus={true}
               attachButton={false}
@@ -276,7 +281,7 @@ export default function Chat() {
               ref={messageInput}
             />
           </ChatContainer>
-          {!showButtons && (
+          {showButtons && (
             <div className={styles.userResponse}>
               <button
                 type="button"
@@ -292,11 +297,14 @@ export default function Chat() {
               >
                 Create Jira Story
               </button>
-              <a href="#" onClick={() => setShowVoiceModal(true)}>
-                <MicIcon className="svg-fill-white ds-svg-icon" />
-              </a>
             </div>
           )}
+          <div className={styles.userResponse}>
+            <a href="#" onClick={() => setShowVoiceModal(true)}>
+              <MicIcon className="svg-fill-white ds-svg-icon" />
+              {/* <FontAwesomeIcon icon="fa-regular fa-microphone" size="lg" style={{color: "#ffffff",}} /> */}
+            </a>
+          </div>
         </MainContainer>
       </div>
     </div>

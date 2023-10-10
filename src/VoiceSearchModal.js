@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Modal from "react-bootstrap/Modal";
 import "./microphone.css";
-import { ReactComponent as MicIcon } from "./mic.svg";
-// import { IconName } from "react-icons/fa";
+import { ReactComponent as MicIcon } from "./mic-fill.svg";
 
 const VoiceSearchModal = ({ sendMessage, setShowVoiceModal }) => {
   const messageRef = useRef();
@@ -26,8 +25,12 @@ const VoiceSearchModal = ({ sendMessage, setShowVoiceModal }) => {
     recognition.addEventListener("speechend", (event) => {
       console.log("Speech recognition stopped");
       recognition.stop();
-      sendMessage(undefined, messageRef.current.innerHTML);
-      setShowVoiceModal(false);
+      if (messageRef.current && messageRef.current.innerHTML) {
+        sendMessage(undefined, messageRef.current.innerHTML);
+        setShowVoiceModal(false);
+      }
+      // sendMessage(undefined, messageRef.current.innerHTML);
+      // setShowVoiceModal(false);
     });
     if (speech) {
       recognition.start();
@@ -37,18 +40,21 @@ const VoiceSearchModal = ({ sendMessage, setShowVoiceModal }) => {
   }, []);
 
   return (
-    <Modal size="xl" show backdrop="static" keyboard={false} centered>
+    <Modal size="md" show backdrop="static" keyboard={false} centered>
       <Modal.Header>
-        <Modal.Title>I'm Listening, Please</Modal.Title>
-        <div className="container">
+        <Modal.Title>Chatbot is listening...... Start Talking </Modal.Title>
+        <div>
           <button id="speech" className="btn">
             <div className="pulse-ring"></div>
-            <MicIcon className="svg-fill-white ds-svg-icon" /> 
+            <MicIcon className="svg-fill-white ds-svg-icon" />
           </button>
         </div>
       </Modal.Header>
       <Modal.Body>
-        <span ref={messageRef}>Your message will come here</span>
+        {/* <div class="container_button"> */}
+
+        {/* </div> */}
+        <span ref={messageRef} />
       </Modal.Body>
     </Modal>
   );
