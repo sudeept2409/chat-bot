@@ -106,22 +106,25 @@
 
 .userResponse {
   position: absolute;
-  right: 16px;
-  bottom: 12px;
+  bottom: 46px;
   z-index: 55;
   color: #fff !important;
 }
 
 .userResponseButtons {
-  padding: 6px;
-
+  padding: 2px 12px;
   margin: 10px;
-
   background-color: cornflowerblue;
-
   color: #fff;
-
   border-radius: 7px;
-
+  border: 1px solid cornflowerblue;
   cursor: pointer;
+}
+
+.micIcon{
+  position: absolute;
+  right: 16px;
+  bottom: 12px;
+  z-index: 55;
+  color: #fff !important;
 }
